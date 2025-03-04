@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { IUserDTO } from "../shared";
+import { IUserDTO } from "../interfaces/index";
 
 class UserDTO {
   _id: Types.ObjectId;
