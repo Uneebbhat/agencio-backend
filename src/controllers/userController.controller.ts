@@ -10,6 +10,9 @@ import UserDTO from "../dto/UserDTO.dto";
 import UserLoginSchema from "../schemas/UserLoginSchema.schema";
 import sendEmail from "../services/sendEmail";
 import { welcomeEmail } from "../templates/emails/welcomeEmail";
+import cloudinaryUpload from "../services/cloudinaryUpload";
+import { UploadApiResponse } from "cloudinary";
+import supabaseAdmin from "../config/supabaseAdminClient";
 
 export const signup = async (req: Request, res: Response) => {
   const { error } = UserSignupSchema.validate(req.body);
@@ -17,46 +20,41 @@ export const signup = async (req: Request, res: Response) => {
     ErrorHandler.send(res, 400, error.message);
   }
 
-  try {
-    const { name, email, password } = req.body;
+  const { name, email, password } = req.body;
 
+  try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       ErrorHandler.send(res, 409, "User already exists");
-    } else {
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      const newUser = await User.create({
-        name,
-        email,
-        password: hashedPassword,
-      });
-
-      const token = generateToken(res, newUser);
-
-      setCookies(res, token);
-
-      const userDTO = new UserDTO(newUser);
-
-      try {
-        const emailTemplate = welcomeEmail(newUser.name);
-        await sendEmail(
-          newUser.email,
-          emailTemplate.subject,
-          emailTemplate.text
-        );
-      } catch (error: any) {
-        console.error(`Failed to send welcome email: ${error.message}`);
-      }
-
-      ResponseHandler.send(
-        res,
-        201,
-        "Account created successfully",
-        userDTO,
-        token
-      );
     }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    const token = generateToken(res, newUser);
+    setCookies(res, token);
+
+    const userDTO = new UserDTO(newUser);
+
+    // try {
+    //   const emailTemplate = welcomeEmail(newUser.name);
+    //   await sendEmail(newUser.email, emailTemplate.subject, emailTemplate.text);
+    // } catch (error: any) {
+    //   console.error(`Failed to send welcome email: ${error.message}`);
+    // }
+
+    ResponseHandler.send(
+      res,
+      201,
+      "Account created successfully",
+      userDTO,
+      token
+    );
   } catch (error: any) {
     ErrorHandler.send(res, 500, `Internal Server Error: ${error.message}`);
   }
@@ -66,6 +64,7 @@ export const login = async (req: Request, res: Response) => {
   const { error } = UserLoginSchema.validate(req.body);
   if (error) {
     ErrorHandler.send(res, 400, error.message);
+    return;
   }
 
   try {
@@ -74,11 +73,13 @@ export const login = async (req: Request, res: Response) => {
     const user = await User.findOne({ email });
     if (!user) {
       ErrorHandler.send(res, 404, "User not found");
+      return;
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user!.password);
     if (!isPasswordCorrect) {
       ErrorHandler.send(res, 400, "Invalid email or password");
+      return;
     } else {
       const token = generateToken(res, user);
 

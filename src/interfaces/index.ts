@@ -4,10 +4,10 @@ import { Types } from "mongoose";
 
 // User Interface
 export interface IUser {
-  // Add more fields as needed
   name: string;
   email: string;
   password: string;
+  profilePic: File | null | any;
 }
 
 export interface IUserDTO {
@@ -15,4 +15,5 @@ export interface IUserDTO {
   _id: Types.ObjectId;
   name: string;
   email: string;
+  profilePic: File | null | any;
 }

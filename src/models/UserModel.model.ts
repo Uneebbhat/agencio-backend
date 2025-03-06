@@ -1,8 +1,13 @@
 import mongoose, { Schema, Model } from "mongoose";
 import { IUser } from "../interfaces/index";
+import { DEFAULT_IMG } from "../config/constants";
 
 const UserModel: Schema<IUser> = new Schema(
   {
+    profilePic: {
+      type: String,
+      default: DEFAULT_IMG,
+    },
     name: {
       type: String,
       required: [true, "Name is required"],

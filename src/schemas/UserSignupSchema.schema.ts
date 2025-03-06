@@ -1,6 +1,9 @@
 import Joi from "joi";
+import { DEFAULT_IMG } from "../config/constants";
 
 const UserSignupSchema = Joi.object({
+  profilePic: Joi.string().uri().default(DEFAULT_IMG).optional(),
+
   name: Joi.string().required().min(2).max(50).trim().messages({
     "string.empty": "Name is required",
     "string.min": "Name must be at least 2 characters long",

@@ -12,18 +12,11 @@ const UserLoginSchema = Joi.object({
       "string.base": "Email must be a string",
     }),
 
-  password: Joi.string()
-    .required()
-    .min(8)
-    .max(100)
-    .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/)
-    .messages({
-      "string.empty": "Password is required",
-      "string.min": "Password must be at least 8 characters long",
-      "string.max": "Password cannot exceed 100 characters",
-      "string.pattern.base":
-        "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
-    }),
+  password: Joi.string().required().min(8).max(100).messages({
+    "string.empty": "Password is required",
+    "string.min": "Password must be at least 8 characters long",
+    "string.max": "Password cannot exceed 100 characters",
+  }),
 });
 
 export default UserLoginSchema;
