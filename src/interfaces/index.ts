@@ -8,6 +8,8 @@ export interface IUser {
   email: string;
   password: string;
   profilePic: File | null | any;
+  resetPasswordToken?: any;
+  resetPasswordExpires?: any;
 }
 
 export interface IUserDTO {

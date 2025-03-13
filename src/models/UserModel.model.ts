@@ -27,6 +27,8 @@ const UserModel: Schema<IUser> = new Schema(
       minlength: [8, "Password must be at least 8 characters long"],
       maxlength: [100, "Password cannot exceed 100 characters"],
     },
+    resetPasswordToken: { type: String, default: null },
+    resetPasswordExpires: { type: Date, default: null },
   },
   { timestamps: true }
 );
