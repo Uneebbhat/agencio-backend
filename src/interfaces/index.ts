@@ -1,6 +1,6 @@
 // Add all interfaces here and then export them to use
 
-import { Types } from "mongoose";
+import { Document, Types } from "mongoose";
 
 // User Interface
 export interface IUser {
@@ -18,4 +18,16 @@ export interface IUserDTO {
   name: string;
   email: string;
   profilePic: File | null | any;
+}
+
+// Agency Interface
+export interface IAgency extends Document {
+  userId: Types.ObjectId;
+  agencyLogo?: File | null;
+  agencyName: string;
+  agencyEmail: string;
+  agencyWebsite?: string;
+  agencyPhone: string;
+  agencySize: number;
+  industry: string;
 }

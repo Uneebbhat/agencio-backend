@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import dbConnect from "./config/dbConnect";
 import ErrorHandler from "./utils/ErrorHandler";
 import userRoutes from "./routes/userRoutes.routes";
+import agencyRoutes from "./routes/agencyRoutes.routes";
 
 const app: Application = express();
 
@@ -37,7 +38,7 @@ app.use(
 // Routes
 
 // TODO: Change apiRoutes with actual routes
-app.use("/api", userRoutes);
+app.use("/api", userRoutes, agencyRoutes);
 
 app.use("*", (req: Request, res: Response) => {
   ErrorHandler.send(res, 404, "Page not found");
