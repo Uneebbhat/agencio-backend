@@ -3,6 +3,9 @@ import CreateAgencySchema from "../schemas/CreateAgencySchema.schema";
 import ErrorHandler from "../utils/ErrorHandler";
 import Agency from "../models/AgencyModel.model";
 import ResponseHandler from "../utils/ResponseHandler";
+import generateToken from "../helpers/generateToken";
+import cloudinaryUpload from "../services/cloudinaryUpload";
+import path from "path";
 
 export const createAgency = async (req: Request, res: Response) => {
   const { error } = CreateAgencySchema.validate(req.body);
@@ -28,6 +31,28 @@ export const createAgency = async (req: Request, res: Response) => {
       return;
     }
 
+    const agencyLogo = req.file;
+    // console.log("agencyLogo", agencyLogo);
+    // console.log(req.file?.path);
+
+    let agencyLogoUrl;
+
+    if (agencyLogo) {
+      const filePath = path.resolve(agencyLogo.path);
+      // console.log("filePath", filePath);
+
+      try {
+        const cloudinaryResponse = await cloudinaryUpload(filePath, {
+          folder: "agencio/agency_logos",
+        });
+        agencyLogoUrl = cloudinaryResponse.secure_url;
+        // console.log(`Image uploaded successfully: ${agencyLogoUrl}`);
+      } catch (error: any) {
+        ErrorHandler.send(res, 500, `${error}`);
+        return;
+      }
+    }
+
     const newAgency = await Agency.create({
       userId,
       agencyName,
@@ -36,13 +61,22 @@ export const createAgency = async (req: Request, res: Response) => {
       agencyPhone,
       agencySize,
       industry,
+      agencyLogo: agencyLogoUrl,
     });
     if (!newAgency) {
       ErrorHandler.send(res, 400, "Failed to create agency");
       return;
     }
 
-    ResponseHandler.send(res, 201, "Agencies created successfully", newAgency);
+    const token = generateToken(res, newAgency);
+
+    ResponseHandler.send(
+      res,
+      201,
+      "Agencies created successfully",
+      newAgency,
+      token
+    );
   } catch (error: any) {
     ErrorHandler.send(res, 500, `Internal Server Error: ${error.message}`);
   }
