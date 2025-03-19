@@ -1,4 +1,7 @@
 import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
+import cloudinaryConfig from "../config/cloudinaryConfig";
+
+cloudinaryConfig();
 
 const cloudinaryUpload = async (
   filepath: string,
@@ -7,7 +10,7 @@ const cloudinaryUpload = async (
   try {
     return await cloudinary.uploader.upload(filepath, options);
   } catch (error: any) {
-    throw new Error("Error while uploading image");
+    throw new Error(`Error while uploading image: ${error.message}`);
   }
 };
 
