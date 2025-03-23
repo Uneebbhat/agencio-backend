@@ -14,6 +14,8 @@ import ForgotEmailSchema from "../schemas/ForgotEmailSchema.schema";
 import forgotPasswordEmail from "../templates/emails/forgotPasswordEmail";
 import generateResetToken from "../helpers/generateResetToken";
 import ResetPasswordSchema from "../schemas/ResetPasswordSchema.schema";
+import path from "path";
+import cloudinaryUpload from "../services/cloudinaryUpload";
 
 export const signup = async (req: Request, res: Response) => {
   const { error } = UserSignupSchema.validate(req.body);
@@ -32,10 +34,31 @@ export const signup = async (req: Request, res: Response) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    const profilePic = req.file;
+
+    let profilePicUrl;
+
+    if (profilePic) {
+      const filePath = path.resolve(profilePic.path);
+      // console.log("filePath", filePath);
+
+      try {
+        const cloudinaryResponse = await cloudinaryUpload(filePath, {
+          folder: "agencio/user_avatar",
+        });
+        profilePicUrl = cloudinaryResponse.secure_url;
+        // console.log(`Image uploaded successfully: ${agencyLogoUrl}`);
+      } catch (error: any) {
+        ErrorHandler.send(res, 500, `${error}`);
+        return;
+      }
+    }
+
     const newUser = await User.create({
       name,
       email,
       password: hashedPassword,
+      profilePic: profilePicUrl,
     });
 
     const token = generateToken(res, newUser);

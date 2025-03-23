@@ -6,11 +6,14 @@ import {
   resetPassword,
   signup,
 } from "../controllers/userController.controller";
+import multer from "multer";
+
+const upload = multer({ dest: "uploads/" });
 
 const router = Router();
 
 router
-  .post("/v1/signup", signup)
+  .post("/v1/signup", upload.single("profilePic"), signup)
   .post("/v1/login", login)
   .post("/v1/logout", logout)
   .post("/v1/forgot-password", forgotPassword)
