@@ -16,6 +16,7 @@ import generateResetToken from "../helpers/generateResetToken";
 import ResetPasswordSchema from "../schemas/ResetPasswordSchema.schema";
 import path from "path";
 import cloudinaryUpload from "../services/cloudinaryUpload";
+import Agency from "../models/AgencyModel.model";
 
 export const signup = async (req: Request, res: Response) => {
   const { error } = UserSignupSchema.validate(req.body);
@@ -101,6 +102,12 @@ export const login = async (req: Request, res: Response) => {
       return;
     }
 
+    const agency = await Agency.findOne({ userId: user._id });
+    if (!agency) {
+      ErrorHandler.send(res, 404, "Agency not found");
+      return;
+    }
+
     const isPasswordCorrect = await bcrypt.compare(password, user!.password);
     if (!isPasswordCorrect) {
       ErrorHandler.send(res, 400, "Invalid email or password");
@@ -112,7 +119,13 @@ export const login = async (req: Request, res: Response) => {
 
       const userDTO = new UserDTO(user!);
 
-      ResponseHandler.send(res, 200, "Login successful", userDTO, token);
+      ResponseHandler.send(
+        res,
+        200,
+        "Login successful",
+        { userDTO, agency },
+        token
+      );
     }
   } catch (error: any) {
     ErrorHandler.send(res, 500, `Internal Server Error: ${error.message}`);
