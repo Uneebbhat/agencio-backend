@@ -31,3 +31,15 @@ export interface IAgency extends Document {
   agencySize: number;
   industry: string;
 }
+
+// Client Interface
+export enum ClientStatus {
+  ACTIVE = "Active",
+  INACTIVE = "Inactive",
+}
+export interface IClient extends Document {
+  agencyId: Types.ObjectId;
+  clientName: string;
+  clientEmail: string;
+  status: ClientStatus;
+}
