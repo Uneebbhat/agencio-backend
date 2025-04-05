@@ -17,6 +17,7 @@ import ResetPasswordSchema from "../schemas/ResetPasswordSchema.schema";
 import path from "path";
 import cloudinaryUpload from "../services/cloudinaryUpload";
 import Agency from "../models/AgencyModel.model";
+import Client from "../models/ClientModel.model";
 
 export const signup = async (req: Request, res: Response) => {
   const { error } = UserSignupSchema.validate(req.body);
@@ -108,6 +109,12 @@ export const login = async (req: Request, res: Response) => {
       return;
     }
 
+    const clients = await Client.find({ agencyId: agency._id });
+    if (!clients) {
+      ErrorHandler.send(res, 404, "No clients found for this agency");
+      return;
+    }
+
     const isPasswordCorrect = await bcrypt.compare(password, user!.password);
     if (!isPasswordCorrect) {
       ErrorHandler.send(res, 400, "Invalid email or password");
@@ -123,7 +130,7 @@ export const login = async (req: Request, res: Response) => {
         res,
         200,
         "Login successful",
-        { userDTO, agency },
+        { userDTO, agency, clients },
         token
       );
     }

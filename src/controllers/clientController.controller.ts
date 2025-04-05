@@ -31,7 +31,12 @@ export const createClient = async (req: Request, res: Response) => {
       return;
     }
 
-    ResponseHandler.send(res, 201, newClient as any);
+    ResponseHandler.send(
+      res,
+      201,
+      "Client created successfuly",
+      newClient as any
+    );
   } catch (error: any) {
     ErrorHandler.send(res, 500, `Internal Server Error: ${error.message}`);
   }
@@ -49,6 +54,35 @@ export const getAllClients = async (req: Request, res: Response) => {
       lenght: allClients.length,
       allClients,
     });
+  } catch (error: any) {
+    ErrorHandler.send(res, 500, `Internal Server Error: ${error.message}`);
+  }
+};
+
+export const editClient = async (req: Request, res: Response) => {
+  const { agencyId, clientName, clientEmail, status, clientId } = req.body;
+  if (!clientId) {
+    ErrorHandler.send(res, 400, "Client ID is required");
+    return;
+  }
+
+  try {
+    const updatedClient = await Client.findByIdAndUpdate(
+      clientId,
+      { clientName, clientEmail, status },
+      { new: true }
+    );
+    if (!updatedClient) {
+      ErrorHandler.send(res, 404, "Client not found");
+      return;
+    }
+
+    ResponseHandler.send(
+      res,
+      200,
+      "Client updated successfully",
+      updatedClient
+    );
   } catch (error: any) {
     ErrorHandler.send(res, 500, `Internal Server Error: ${error.message}`);
   }
