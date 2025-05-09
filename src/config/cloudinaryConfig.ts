@@ -4,11 +4,11 @@ import { config } from "dotenv";
 
 config();
 
-const cloudinaryConfig = () => {
+const cloudinaryConfig = (): void => {
   cloudinary.config({
-    cloud_name: "dhxelcjwn",
-    api_key: "239882197132722",
-    api_secret: "AI2FZu6iavHX3kglJBHsc9KNajM",
+    cloud_name: CLOUD_NAME as string,
+    api_key: CLOUD_API_KEY as string,
+    api_secret: CLOUD_API_SECRET as string,
   });
 };
 

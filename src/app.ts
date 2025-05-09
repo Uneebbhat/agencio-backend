@@ -8,6 +8,7 @@ import ErrorHandler from "./utils/ErrorHandler";
 import userRoutes from "./routes/userRoutes.routes";
 import agencyRoutes from "./routes/agencyRoutes.routes";
 import clientRoutes from "./routes/clientRoutes.routes";
+import projectRoutes from "./routes/projectRoutes.routes";
 
 const app: Application = express();
 
@@ -39,7 +40,7 @@ app.use(
 // Routes
 
 // TODO: Change apiRoutes with actual routes
-app.use("/api", userRoutes, agencyRoutes, clientRoutes);
+app.use("/api", userRoutes, agencyRoutes, clientRoutes, projectRoutes);
 
 app.use("*", (req: Request, res: Response) => {
   ErrorHandler.send(res, 404, "Page not found");

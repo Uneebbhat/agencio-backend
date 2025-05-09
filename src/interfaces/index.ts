@@ -43,3 +43,19 @@ export interface IClient extends Document {
   clientEmail: string;
   status: ClientStatus;
 }
+
+// Project Interface
+export enum ProjectStatus {
+  PENDING = "pending",
+  IN_PROGRESS = "in-progress",
+  COMPLETED = "completed",
+  ON_HOLD = "on-hold",
+  CANCELLED = "cancelled",
+}
+export interface IProject extends Document {
+  agencyId: Types.ObjectId;
+  clientId: Types.ObjectId;
+  projectName: string;
+  projectStatus: ProjectStatus;
+  projectBudget: number;
+}

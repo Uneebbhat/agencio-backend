@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { MONGODB_URI } from "./constants";
 
-const dbConnect = async () => {
+const dbConnect = async (): Promise<void> => {
   try {
     if (!MONGODB_URI) {
       console.error(
