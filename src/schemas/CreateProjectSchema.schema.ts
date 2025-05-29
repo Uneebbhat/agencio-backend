@@ -8,10 +8,9 @@ const CreateProjectSchema = Joi.object({
     "any.required": `"Agency ID" is required`,
   }),
 
-  clientId: Joi.string().hex().required().messages({
-    "string.base": `"Client ID" should be a string`,
-    "string.hex": `"Client ID" should be a valid ObjectId`,
-    "any.required": `"Client ID" is required`,
+  clientName: Joi.string().min(1).required().messages({
+    "string.base": `"Client name" should be a string`,
+    "any.required": `"Client name" is required`,
   }),
 
   projectName: Joi.string().min(1).required().messages({
