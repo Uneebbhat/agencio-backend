@@ -59,3 +59,17 @@ export interface IProject extends Document {
   projectStatus: ProjectStatus;
   projectBudget: number;
 }
+
+// Chat Interface
+// export enum ChatRole {
+//   user = "user",
+//   ai = "ai",
+// }
+export interface IChat {
+  senderId: Types.ObjectId;
+  messages: {
+    role: "user" | "ai";
+    content: string;
+    timestamp: Date;
+  }[];
+}

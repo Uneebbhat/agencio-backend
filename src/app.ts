@@ -1,4 +1,5 @@
 import express, { Application, Request, Response } from "express";
+import { morganStream } from "./utils/logger";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -11,7 +12,7 @@ import userRoutes from "./routes/userRoutes.routes";
 import agencyRoutes from "./routes/agencyRoutes.routes";
 import clientRoutes from "./routes/clientRoutes.routes";
 import projectRoutes from "./routes/projectRoutes.routes";
-import { morganStream } from "./utils/logger";
+import chatRoutes from "./routes/chatRoute.routes";
 
 const app: Application = express();
 
@@ -91,7 +92,14 @@ app.use(
 // Routes
 
 // TODO: Change apiRoutes with actual routes
-app.use("/api", userRoutes, agencyRoutes, clientRoutes, projectRoutes);
+app.use(
+  "/api",
+  userRoutes,
+  agencyRoutes,
+  clientRoutes,
+  projectRoutes,
+  chatRoutes
+);
 
 app.use("*", (req: Request, res: Response) => {
   ErrorHandler.send(res, 404, "Page not found");
