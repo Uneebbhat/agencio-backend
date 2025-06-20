@@ -60,11 +60,11 @@ export interface IProject extends Document {
   projectBudget: number;
 }
 
-// Chat Interface
-// export enum ChatRole {
-//   user = "user",
-//   ai = "ai",
-// }
+// AI Chat Interface
+export interface GenerativeContentProps {
+  prompt: string;
+}
+
 export interface IChat {
   senderId: Types.ObjectId;
   messages: {

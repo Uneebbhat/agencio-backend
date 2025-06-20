@@ -1,8 +1,5 @@
 import ai from "../config/geminiConfig";
-
-interface GenerativeContentProps {
-  prompt: string;
-}
+import { GenerativeContentProps } from "../interfaces";
 
 const generativeContent = async (prompt: GenerativeContentProps) => {
   const response = await ai.models.generateContent({
