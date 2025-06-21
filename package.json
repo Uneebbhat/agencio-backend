@@ -58,11 +58,12 @@
     "helmet": "^8.0.0",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.9.5",
+    "mongoose": "^7.6.0",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "node-cache": "^5.1.2",
     "nodemailer": "^6.10.0",
+    "serverless-http": "^3.2.0",
     "stripe": "^17.7.0",
     "stripe-cli": "^0.1.0",
     "winston": "^3.17.0"
@@ -87,6 +88,6 @@
     "@types/winston": "^2.4.4",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.3"
   }
 }
