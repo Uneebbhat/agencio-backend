@@ -11,13 +11,13 @@ export const createProject = async (req: Request, res: Response) => {
     return;
   }
 
-  const { agencyId, clientId, projectName, projectStatus, projectBudget } =
+  const { agencyId, clientName, projectName, projectStatus, projectBudget } =
     req.body;
 
   try {
     const newProject = await Project.create({
       agencyId,
-      clientId,
+      clientName,
       projectName,
       projectStatus,
       projectBudget,
@@ -28,6 +28,19 @@ export const createProject = async (req: Request, res: Response) => {
     }
 
     ResponseHandler.send(res, 201, "Project created successfully", newProject);
+  } catch (error: any) {
+    ErrorHandler.send(res, 500, `Internal Server Error: ${error.message}`);
+  }
+};
+
+export const getAllProjects = async (req: Request, res: Response) => {
+  try {
+    const projects = await Project.find();
+    if (!projects) {
+      ErrorHandler.send(res, 404, "No projects found");
+      return;
+    }
+    ResponseHandler.send(res, 200, "Projects fetched successfully", projects);
   } catch (error: any) {
     ErrorHandler.send(res, 500, `Internal Server Error: ${error.message}`);
   }

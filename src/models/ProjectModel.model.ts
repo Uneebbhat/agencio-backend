@@ -8,10 +8,10 @@ const ProjectModel: Schema<IProject> = new Schema(
       ref: "Agency",
       required: [true, "Agency ID is required"],
     },
-    clientId: {
-      type: Schema.Types.ObjectId,
+    clientName: {
+      type: String,
       ref: "Client",
-      required: [true, "Client ID is required"],
+      required: [true, "Client name is required"],
     },
     projectName: {
       type: String,
@@ -20,7 +20,7 @@ const ProjectModel: Schema<IProject> = new Schema(
     projectStatus: {
       type: String,
       enum: Object.values(ProjectStatus),
-      default: ProjectStatus.IN_PROGRESS,
+      default: ProjectStatus.PENDING,
     },
     projectBudget: {
       type: Number,
