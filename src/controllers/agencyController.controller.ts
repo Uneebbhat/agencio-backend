@@ -7,7 +7,10 @@ import generateToken from "../helpers/generateToken";
 import cloudinaryUpload from "../services/cloudinaryUpload";
 import path from "path";
 
-export const createAgency = async (req: Request, res: Response) => {
+export const createAgency = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { error } = CreateAgencySchema.validate(req.body);
   if (error) {
     ErrorHandler.send(res, 400, error.details[0].message);
@@ -82,7 +85,7 @@ export const createAgency = async (req: Request, res: Response) => {
   }
 };
 
-export const getAgency = async (req: Request, res: Response) => {
+export const getAgency = async (req: Request, res: Response): Promise<void> => {
   const { agencyId } = req.params;
 
   try {
