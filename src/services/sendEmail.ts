@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import nodemailer, { SentMessageInfo } from "nodemailer";
 import { NODE_PASS, NODE_SERVICE, NODE_USER } from "../config/constants";
 
 const sendEmail = async (
@@ -6,7 +6,7 @@ const sendEmail = async (
   subject: string,
   text?: string,
   htmlContent: string = ""
-) => {
+): Promise<SentMessageInfo> => {
   const transporter = nodemailer.createTransport({
     service: NODE_SERVICE as string,
     auth: {

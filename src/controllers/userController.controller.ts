@@ -19,7 +19,7 @@ import cloudinaryUpload from "../services/cloudinaryUpload";
 import Agency from "../models/AgencyModel.model";
 import Client from "../models/ClientModel.model";
 
-export const signup = async (req: Request, res: Response) => {
+export const signup = async (req: Request, res: Response): Promise<void> => {
   const { error } = UserSignupSchema.validate(req.body);
   if (error) {
     ErrorHandler.send(res, 400, error.message);
@@ -87,7 +87,7 @@ export const signup = async (req: Request, res: Response) => {
   }
 };
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response): Promise<void> => {
   const { error } = UserLoginSchema.validate(req.body);
   if (error) {
     ErrorHandler.send(res, 400, error.message);
@@ -139,7 +139,10 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-export const forgotPassword = async (req: Request, res: Response) => {
+export const forgotPassword = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { error } = ForgotEmailSchema.validate(req.body);
   if (error) {
     ErrorHandler.send(res, 400, error.message);
@@ -168,7 +171,10 @@ export const forgotPassword = async (req: Request, res: Response) => {
   }
 };
 
-export const resetPassword = async (req: Request, res: Response) => {
+export const resetPassword = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   // Validate request body
   const { error } = ResetPasswordSchema.validate(req.body);
   if (error) {
@@ -203,7 +209,7 @@ export const resetPassword = async (req: Request, res: Response) => {
   }
 };
 
-export const logout = async (req: Request, res: Response) => {
+export const logout = async (req: Request, res: Response): Promise<void> => {
   try {
     res.clearCookie("token", {
       httpOnly: true,

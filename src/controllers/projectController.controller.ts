@@ -4,7 +4,10 @@ import ErrorHandler from "../utils/ErrorHandler";
 import Project from "../models/ProjectModel.model";
 import ResponseHandler from "../utils/ResponseHandler";
 
-export const createProject = async (req: Request, res: Response) => {
+export const createProject = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { error } = CreateProjectSchema.validate(req.body);
   if (error) {
     ErrorHandler.send(res, 400, error.details[0].message);
@@ -33,7 +36,10 @@ export const createProject = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllProjects = async (req: Request, res: Response) => {
+export const getAllProjects = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const projects = await Project.find();
     if (!projects) {

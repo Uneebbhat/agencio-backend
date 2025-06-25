@@ -12,7 +12,7 @@ const authentication = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     // Extract token from headers or cookies
     const token = req.headers.authorization || req.cookies.token;

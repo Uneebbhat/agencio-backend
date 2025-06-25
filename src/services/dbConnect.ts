@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { MONGODB_URI } from "./constants";
+import { MONGODB_URI } from "../config/constants";
 import logger from "../utils/logger";
 
 const dbConnect = async (): Promise<void> => {

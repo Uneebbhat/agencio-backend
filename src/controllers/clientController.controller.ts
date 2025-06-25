@@ -4,7 +4,10 @@ import ErrorHandler from "../utils/ErrorHandler";
 import Client from "../models/ClientModel.model";
 import ResponseHandler from "../utils/ResponseHandler";
 
-export const createClient = async (req: Request, res: Response) => {
+export const createClient = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { error } = CreateClientSchema.validate(req.body);
   if (error) {
     ErrorHandler.send(res, 400, error.details[0].message);
@@ -42,7 +45,10 @@ export const createClient = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllClients = async (req: Request, res: Response) => {
+export const getAllClients = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const allClients = await Client.find().populate("agencyId");
     if (!allClients) {
@@ -59,7 +65,10 @@ export const getAllClients = async (req: Request, res: Response) => {
   }
 };
 
-export const editClient = async (req: Request, res: Response) => {
+export const editClient = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { agencyId, clientName, clientEmail, status, clientId } = req.body;
   if (!clientId) {
     ErrorHandler.send(res, 400, "Client ID is required");
@@ -88,7 +97,10 @@ export const editClient = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteClient = async (req: Request, res: Response) => {
+export const deleteClient = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { clientId } = req.query;
   try {
     const deletedClient = await Client.findByIdAndDelete({ _id: clientId });

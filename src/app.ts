@@ -6,7 +6,7 @@ import morgan from "morgan";
 import chalk from "chalk";
 import rateLimit from "express-rate-limit";
 import cookieParser from "cookie-parser";
-import dbConnect from "./config/dbConnect";
+import dbConnect from "./services/dbConnect";
 import ErrorHandler from "./utils/ErrorHandler";
 import userRoutes from "./routes/userRoutes.routes";
 import agencyRoutes from "./routes/agencyRoutes.routes";

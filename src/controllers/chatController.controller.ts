@@ -4,7 +4,7 @@ import Chat from "../models/ChatModel.model";
 import generativeContent from "../services/generativeContent";
 import ResponseHandler from "../utils/ResponseHandler";
 
-export const chat = async (req: Request, res: Response) => {
+export const chat = async (req: Request, res: Response): Promise<void> => {
   const { senderId, message } = req.body;
 
   try {
@@ -55,7 +55,7 @@ export const chat = async (req: Request, res: Response) => {
   }
 };
 
-export const getChat = async (req: Request, res: Response) => {
+export const getChat = async (req: Request, res: Response): Promise<void> => {
   try {
     const { senderId } = req.params;
     let chatHistory;
