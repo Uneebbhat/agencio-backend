@@ -28,15 +28,6 @@ const morganFormat = (
 ): string => {
   const status = Number(tokens.status(req, res));
 
-  const statusColor =
-    status >= 500
-      ? chalk.red
-      : status >= 400
-      ? chalk.yellow
-      : status >= 300
-      ? chalk.cyan
-      : chalk.green;
-
   return [
     // IP - green
     chalk.green(tokens["remote-addr"](req, res) || ""),
@@ -78,13 +69,12 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Middlewares
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors());
 
 // Routes
-
 // TODO: Change apiRoutes with actual routes
 app.use(
   "/api",
